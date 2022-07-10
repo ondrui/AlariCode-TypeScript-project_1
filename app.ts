@@ -267,5 +267,5 @@ interface User {
 const user: User = {
   name: 'Ann',
   age: 22,
-  job: 'DevOps'
+  job: 'Backend Dev'
 }
