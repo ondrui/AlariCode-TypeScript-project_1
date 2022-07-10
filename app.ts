@@ -253,15 +253,19 @@
 
 //Types или Interfaces?
 
+//merge interface
+
 interface User {
   name: string
 }
 
 interface User {
-  age: number
+  age: number,
+  job: string
 }
 
 const user: User = {
   name: 'Ann',
-  age: 22
+  age: 22,
+  job: 'Dev'
 }
