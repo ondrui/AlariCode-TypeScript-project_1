@@ -262,10 +262,12 @@ interface User {
 interface User {
   age: number,
   job: string
+  city: string
 }
 
 const user: User = {
   name: 'Ann',
   age: 22,
-  job: 'Backend Dev'
+  job: 'Backend Dev',
+  city: 'Moscow'
 }
