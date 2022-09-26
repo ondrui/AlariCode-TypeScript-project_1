@@ -1,8 +1,7 @@
-"use strict";
 // Аннотация или указание типа
-const user = {
+var user = {
     name: 'Ann',
     age: 22,
-    job: 'Backend Dev',
-    city: 'Moscow'
+    job: 'DevOps',
+    city: 'Omsk'
 };

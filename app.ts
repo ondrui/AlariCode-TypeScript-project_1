@@ -151,8 +151,7 @@
 //   if (a === b) {
 //     a.toLowerCase();
 //   } else {
-//     console.log(a);
-//   }
+//     console.
 // }
 
 //Literal Types
@@ -255,19 +254,171 @@
 
 //merge interface
 
-interface User {
-  name: string
-}
+// interface User {
+//   name: string
+// }
 
-interface User {
-  age: number,
-  job: string
-  city: string
-}
+// interface User {
+//   age: number,
+//   job: string
+//   city: string
+// }
 
-const user: User = {
-  name: 'Ann',
-  age: 22,
-  job: 'DevOps',
-  city: 'Omsk'
+// const user: User = {
+//   name: 'Ann',
+//   age: 22,
+//   job: 'DevOps',
+//   city: 'Omsk'
+// }
+
+//The unknown type
+
+// let input: unknown;
+
+// input = 3;
+// input = [2, 6];
+
+// let res: any = input;
+
+// function run(i: unknown) {
+//   if (typeof i === 'number') {
+//     i++;
+//   } else {
+//     i
+//   }
+// }
+// run(input);
+
+// async function getData() {
+//   try {
+//     await fetch('');
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       console.log(error.message)
+//     }
+//   }
+// }
+
+// async function getDataForce() {
+//   try {
+//     await fetch('');
+//   } catch (error) {
+//     const e = error as Error;
+//     console.log(e.message);
+//   }
+// }
+
+// The never type
+// function generateError(message: string): never {
+//   throw new Error(message);
+// }
+
+// function dumpError(): never {
+//   while(true) {}
+// }
+
+// function rec(): never {
+//   return rec();
+// }
+
+// type paymentAction = 'refund' | 'checkout' | 'reject';
+
+// function processAction(action: paymentAction) {
+//   switch (action) {
+//     case 'refund':
+//       //...
+//       break;
+//     case 'checkout':
+//       //...
+//       break;
+//     default:
+//       const _: never = action;
+//       throw new Error('Нет такого action');
+//   }
+// }
+
+//исчерпывающая проверка
+
+// function isString(x: string | number): boolean {
+//   if (typeof x === 'string') {
+//     return true;
+//   } else if (typeof x === 'number') {
+//     return false;
+//   }
+//   generateError('sdddd');
+// }
+
+
+// null
+
+// const n: null = null;
+// const n1: any = null;
+// const n2: number = null;
+// const n3: string = null;
+// const n4: boolean = null;
+// const n5: undefined = null;
+
+// interface User {
+//   name: string;
+// }
+
+// function getUser() {
+//   if (Math.random() > 0.5) {
+//     return null;
+//   } else {
+//     return{ name: 'Вася'} as User;
+//   }
+// }
+
+// const user = getUser();
+// if (user) {
+//   const name55 = user.name;
+// }
+
+//Приведение типов
+//Преобразование типов
+
+// interface User {
+//   name: string;
+//   email: string;
+//   login: string;
+// }
+
+// const user = <User> {
+//   name: 'Вася',
+//   email: 'vas@ya.ru'
+// }
+
+// const user1: User = {
+//   name: 'Вася',
+//   email: 'vs@gmail.com',
+//   login: 'vas'
+// }
+
+// const user2 = {
+//   name: '',
+//   email: '',
+// } as User;
+
+// interface Admin {
+//   name: string;
+//   role: number;
+// }
+// //wrong
+// const admin: Admin = {
+//   ...user,
+//   role: 1
+// }
+// //right
+// function userToAdmin(user: User): Admin {
+//   return {
+//     name: user.name,
+//     role: 1
+//   }
+// }
+
+//type guards
+
+function isString(x: string | number): x is string {
+  return typeof x === 'number';
 }
