@@ -271,154 +271,200 @@
 //   city: 'Omsk'
 // }
 
-//The unknown type
 
-// let input: unknown;
+// ------- Classes in TS -------------
+//----------------------
 
-// input = 3;
-// input = [2, 6];
+// class User {
+//   name: string;
+//   age: number;
 
-// let res: any = input;
-
-// function run(i: unknown) {
-//   if (typeof i === 'number') {
-//     i++;
-//   } else {
-//     i
-//   }
-// }
-// run(input);
-
-// async function getData() {
-//   try {
-//     await fetch('');
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       console.log(error.message)
+  // Overloads
+//   constructor();
+//   constructor(name: string);
+//   constructor(age: number);
+//   constructor(name: string, age: number);
+//   constructor(ageOrName?: string | number, age?: number) {
+//     if (typeof ageOrName === 'string') {
+//       this.name = ageOrName;
+//     } else if (typeof ageOrName === 'number') {
+//       this.age = ageOrName;
+//     }
+//     if (typeof age === 'number') {
+//       this.age = age;
 //     }
 //   }
 // }
 
-// async function getDataForce() {
-//   try {
-//     await fetch('');
-//   } catch (error) {
-//     const e = error as Error;
-//     console.log(e.message);
-//   }
-// }
-
-// The never type
-// function generateError(message: string): never {
-//   throw new Error(message);
-// }
-
-// function dumpError(): never {
-//   while(true) {}
-// }
-
-// function rec(): never {
-//   return rec();
-// }
-
-// type paymentAction = 'refund' | 'checkout' | 'reject';
-
-// function processAction(action: paymentAction) {
-//   switch (action) {
-//     case 'refund':
-//       //...
-//       break;
-//     case 'checkout':
-//       //...
-//       break;
-//     default:
-//       const _: never = action;
-//       throw new Error('Нет такого action');
-//   }
-// }
-
-//исчерпывающая проверка
-
-// function isString(x: string | number): boolean {
-//   if (typeof x === 'string') {
-//     return true;
-//   } else if (typeof x === 'number') {
-//     return false;
-//   }
-//   generateError('sdddd');
-// }
+// const user = new User('Вася');
+// const user2 = new User();
+// const user3 = new User(33);
+// const user4 = new User('Вася', 33);
 
 
-// null
-
-// const n: null = null;
-// const n1: any = null;
-// const n2: number = null;
-// const n3: string = null;
-// const n4: boolean = null;
-// const n5: undefined = null;
-
-// interface User {
-//   name: string;
-// }
-
-// function getUser() {
-//   if (Math.random() > 0.5) {
-//     return null;
-//   } else {
-//     return{ name: 'Вася'} as User;
-//   }
-// }
-
-// const user = getUser();
-// if (user) {
-//   const name55 = user.name;
-// }
-
-//Приведение типов
-//Преобразование типов
-
-// interface User {
-//   name: string;
-//   email: string;
-//   login: string;
-// }
-
-// const user = <User> {
-//   name: 'Вася',
-//   email: 'vas@ya.ru'
-// }
-
-// const user1: User = {
-//   name: 'Вася',
-//   email: 'vs@gmail.com',
-//   login: 'vas'
-// }
-
-// const user2 = {
-//   name: '',
-//   email: '',
-// } as User;
-
-// interface Admin {
-//   name: string;
+// class Admin {
 //   role: number;
 // }
-// //wrong
-// const admin: Admin = {
-//   ...user,
-//   role: 1
+
+// const admin = new Admin();
+// admin.role  = 1;
+
+// Methods
+// enum  PaymentStatus {
+//   Holded,
+//   Processed,
+//   Reversed
 // }
-// //right
-// function userToAdmin(user: User): Admin {
-//   return {
-//     name: user.name,
-//     role: 1
+
+// class Payment {
+//   id: number;
+//   status: PaymentStatus = PaymentStatus.Holded;
+//   createdAt: Date = new Date();
+//   updateAt: Date;
+
+//   constructor(id: number) {
+//     this.id = id;
+//   }
+
+//   getPaymentLifeTime(): number {
+//     return new Date().getTime() - this.createdAt.getTime();
+//   }
+
+//   unholdPayment(): void {
+//     if (this.status == PaymentStatus.Processed) {
+//       throw new Error('Платеж не может быть возвращен!')
+//     }
+//     this.status = PaymentStatus.Reversed;
+//     this.updateAt = new Date();
 //   }
 // }
 
-//type guards
+// const payment = new Payment(1);
+// payment.unholdPayment();
+// console.log(payment);
+// const time = payment.getPaymentLifeTime();
+// console.log(time);
 
-function isString(x: string | number): x is string {
-  return typeof x === 'number';
+// class User {
+//   skills: string[];
+
+//   addSkill(skill: string): void;
+//   addSkill(skills: string[]): void;
+//   addSkill(skillOrSkills: string | string[]): void {
+//     if (typeof skillOrSkills == 'string') {
+//       this.skills.push(skillOrSkills);
+//     } else {
+//       this.skills.concat(skillOrSkills);
+//     }
+//   }
+
+// }
+
+// new User().addSkill()
+// Overloads function
+
+// function run(distance: string): string;
+// function run(distance: number): number;
+// function run(distance: number | string): number | string {
+//   if (typeof distance == 'number') {
+//     return distance;
+//   }
+//   return distance;
+// }
+// run(1);
+
+// -- getter & setter --
+
+// class User {
+//   _login: string;
+//   password: string;
+
+//   set login(l: string) {
+//     this._login = 'user-' + l;
+//   }
+
+//   get login() {
+//     return 'no_login';
+//   }
+// }
+
+// const user = new User();
+// //bad case
+// // user.login = 'user-';
+// user.login = 'myLogin';
+// console.log(user);
+// console.log(user.login);
+
+// -- Implements --
+// interface ILogger {
+//   log(...args: number[]): void;
+//   error(...args: number[]): void;
+// }
+
+// class Logger implements ILogger {
+//   log(...args: any[]): void {
+//     console.log(...args);
+//   }
+//   async error(...args: any[]): Promise<void> {
+//     // Кинуть во внешнюю систему
+//     console.log(...args);
+//   }
+// }
+
+// interface IPayable {
+//   pay(paymentId: number): void;
+//   price?: number;
+// }
+
+// interface IDeleteable {
+//   delete(): void;
+// }
+
+// class User implements IPayable, IDeleteable {
+//   delete(): void {
+//     throw new Error("Method not implemented.");
+//   }
+//   pay(paymentId: number | string): void {
+//     ///
+//   }
+//   price?: number | undefined;
+// }
+
+// -- Extends --
+type PaymentStatus = 'new' | 'paid';
+
+class Payment {
+  id: number;
+  status: PaymentStatus = 'new';
+
+  constructor(id: number) {
+    this.id = id;
+  }
+
+  pay() {
+    this.status = 'paid';
+  }
 }
+
+class PersistedPayment extends Payment {
+  databaseId: number;
+  paidAt: Date;
+
+  constructor() {
+    const id = Math.random();
+    super(id);
+  }
+
+  save() {
+    // Сохраняет в базу
+  }
+  // Overriding Method
+  override pay(date?: Date ) {
+    super.pay();
+    if (date) {
+      this.paidAt = date;
+    }
+  }
+}
+
+new PersistedPayment();
