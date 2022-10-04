@@ -488,3 +488,157 @@ function getMenu<T, L1 extends keyof T, L2 extends keyof T[L1]>(
 }
 
 const res = getMenu(menu, 'design', 'graphical');
+
+//   pay() {
+//     this.status = 'paid';
+//   }
+// }
+
+// class PersistedPayment extends Payment {
+//   databaseId: number;
+//   paidAt: Date;
+
+//   constructor() {
+//     const id = Math.random();
+//     super(id);
+//   }
+
+//   save() {
+//     // Сохраняет в базу
+//   }
+//   // Overriding Method
+//   override pay(date?: Date ) {
+//     super.pay();
+//     if (date) {
+//       this.paidAt = date;
+//     }
+//   }
+// }
+
+// new PersistedPayment();
+
+// class User {
+//   name: string = 'user';
+
+//   constructor() {
+//     console.log(this.name);
+//   }
+// }
+
+// class Admin extends User {
+//   name: string = 'admin';
+
+//   constructor() {
+//     super();
+//     console.log(this.name);
+//   }
+// }
+
+// new Admin();
+
+// new Error('');
+
+// class HttpError extends Error {
+//   code: number;
+
+//   constructor(message: string, code?: number) {
+//     super(message);
+//     this.code = code ?? 500;
+
+//   }
+// }
+
+// -- Композиция против наследования --
+
+// class User {
+//   name: string;
+
+//   constructor(name: string) {
+//     this.name = name;
+//   }
+// }
+
+// // Наследование
+// // bad case
+// class Users extends Array<User> {
+//   searchByName(name: string) {
+//     return this.filter(u => u.name === name);
+//   }
+
+//   override toString(): string {
+//     return this.map(u => u.name).join(', ');
+//   }
+// }
+
+// const users =  new Users();
+// users.push(new User('Вася'));
+// users.push(new User('Петя'));
+// console.log(users.toString());
+
+// // Композиция
+// // good!
+// class UsersList {
+//   users: User[];
+
+//   push(u: User) {
+//     this.users.push(u);
+//   }
+// }
+
+// class Payment {
+//   date: Date;
+// }
+
+// // Наследование
+// class UserWithPayment extends Payment {
+//   name: string;
+// }
+
+// // Композиция
+// class UserWithPayment2 {
+//   user: User;
+//   payment: Payment;
+
+//   constructor(user: User, payment: Payment) {
+//     this.payment = payment;
+//     this.user = user;
+//   }
+// }
+
+// -- 46. Видимость свойств --
+
+class Vehicle {
+  public make: string;
+  private damages: string[];
+  private _model: string;
+  #price: number;
+
+  // доступно у наследников
+  protected run: number;
+
+  set model(m: string) {
+    this._model = m;
+    this.#price = 199;
+  }
+
+  get model() {
+    return this._model;
+  }
+
+  isPriceEqual(v: Vehicle) {
+    this.#price === v.#price;
+  }
+
+  private addDamage(damage: string) {
+    this.damages.push(damage);
+  }
+}
+
+class EuroTruck extends Vehicle {
+  setRun(km: number) {
+    this.run = km / 0.62;
+    //this.damages - error
+  }
+}
+
+new Vehicle();
