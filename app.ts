@@ -469,25 +469,25 @@
 
 // -- Typescript - Generics, Index Access Types, Keyof на простом примере --
 
-const menu = {
-  analytycs: {
-    bussines: "Для бизнеса",
-    data: "Big Data",
-  },
-  design: {
-    graphical: "Графический",
-  },
-};
+// const menu = {
+//   analytycs: {
+//     bussines: "Для бизнеса",
+//     data: "Big Data",
+//   },
+//   design: {
+//     graphical: "Графический",
+//   },
+// };
 
-function getMenu<T, L1 extends keyof T, L2 extends keyof T[L1]>(
-  obj: T,
-  l1: L1,
-  l2: L2
-): T[L1][L2] {
-  return obj[l1][l2];
-}
+// function getMenu<T, L1 extends keyof T, L2 extends keyof T[L1]>(
+//   obj: T,
+//   l1: L1,
+//   l2: L2
+// ): T[L1][L2] {
+//   return obj[l1][l2];
+// }
 
-const res = getMenu(menu, 'design', 'graphical');
+// const res = getMenu(menu, 'design', 'graphical');
 
 //   pay() {
 //     this.status = 'paid';
@@ -607,38 +607,159 @@ const res = getMenu(menu, 'design', 'graphical');
 
 // -- 46. Видимость свойств --
 
-class Vehicle {
-  public make: string;
-  private damages: string[];
-  private _model: string;
-  #price: number;
+// class Vehicle {
+//   public make: string;
+//   private damages: string[];
+//   private _model: string;
+//   #price: number;
 
-  // доступно у наследников
-  protected run: number;
+//   // доступно у наследников
+//   protected run: number;
 
-  set model(m: string) {
-    this._model = m;
-    this.#price = 199;
-  }
+//   set model(m: string) {
+//     this._model = m;
+//     this.#price = 199;
+//   }
 
-  get model() {
-    return this._model;
-  }
+//   get model() {
+//     return this._model;
+//   }
 
-  isPriceEqual(v: Vehicle) {
-    this.#price === v.#price;
-  }
+//   isPriceEqual(v: Vehicle) {
+//     this.#price === v.#price;
+//   }
 
-  private addDamage(damage: string) {
-    this.damages.push(damage);
+//   private addDamage(damage: string) {
+//     this.damages.push(damage);
+//   }
+// }
+
+// class EuroTruck extends Vehicle {
+//   setRun(km: number) {
+//     this.run = km / 0.62;
+//     //this.damages - error
+//   }
+// }
+
+// new Vehicle();
+
+// -- 48. Статические свойства --
+
+// class UserService {
+//   //static name: string = 'sdf'; Error!!! Static property 'name' conflicts with built-in property 'Function.name' of constructor function 'UserService'.
+//   static db: any;
+
+//   static getUser(id: number) {
+//     return UserService.db.findById(id);
+//   }
+
+//   create() {
+//     UserService.db;
+//   }
+
+//   static {
+//     UserService.db = 'sdf';
+//     // no async
+//   }
+// }
+
+// UserService.db;
+// UserService.getUser(3);
+// const inst = new UserService();
+// inst.create();\
+
+// -- 49. Рабата с this --
+
+// class Payment {
+//   private date: Date = new Date;
+
+//   getDate(this: Payment) {
+//     return this.date;
+//   }
+
+//   // Стрелочные функции не теряют контекст this!
+//   getDateArrow = () => {
+//     return this.date;
+//   }
+// }
+
+// const p = new Payment();
+
+// const user = {
+//   id: 1,
+//   paymentDate: p.getDate.bind(p),
+//   paymentDateArrow: p.getDateArrow,
+// };
+
+// // console.log(p.getDate());
+// // console.log(user.paymentDate());
+// // console.log(user.paymentDateArrow()); //2022-10-04T13:34:46.021Z ok
+
+// class PaymentPersistent extends Payment {
+//   save() {
+//     return super.getDateArrow();
+//   }
+// }
+
+// // console.log(new PaymentPersistent().save());// TypeError: (intermediate value).getDateArrow is not a function
+
+// class PaymentPersistent1 extends Payment {
+//   save() {
+//     return this.getDateArrow();
+//   }
+// }
+
+// console.log(new PaymentPersistent1().save()); // 2022-10-04T13:42:19.908Z
+
+// -- 50. Типизация this --
+
+// class UserBuilder {
+//   name: string;
+
+//   setName(name: string): this {
+//     this.name = name;
+//     return this;
+//   }
+
+//   isAdmin(): this is AdminBuilder {
+//     return this instanceof AdminBuilder;
+//   }
+// }
+
+// class AdminBuilder extends UserBuilder {
+//   roles: string[];
+// }
+
+// const res = new UserBuilder().setName('Вася');
+// const res2 = new AdminBuilder().setName('Вася');
+
+
+// let user: UserBuilder | AdminBuilder = new UserBuilder();
+
+// if (user.isAdmin()) {
+//   console.log(user);
+// } else {
+//   console.log(user);
+// }
+
+// -- 51. Абстрактные классы --
+
+abstract class Controller {
+  abstract handle(req: any): void;
+
+  handleWithLogs(req: any) {
+    console.log('Start');
+    this.handle(req);
+    console.log('End');
   }
 }
 
-class EuroTruck extends Vehicle {
-  setRun(km: number) {
-    this.run = km / 0.62;
-    //this.damages - error
+class UserController extends Controller {
+  handle(req: any): void {
+    console.log(req);
   }
 }
 
-new Vehicle();
+// new Controller() - error: Cannot create an instance of an abstract class.
+const c = new UserController();
+c.handleWithLogs('Request');
