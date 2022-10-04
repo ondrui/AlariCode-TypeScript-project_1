@@ -271,7 +271,6 @@
 //   city: 'Omsk'
 // }
 
-
 // ------- Classes in TS -------------
 //----------------------
 
@@ -279,7 +278,7 @@
 //   name: string;
 //   age: number;
 
-  // Overloads
+// Overloads
 //   constructor();
 //   constructor(name: string);
 //   constructor(age: number);
@@ -300,7 +299,6 @@
 // const user2 = new User();
 // const user3 = new User(33);
 // const user4 = new User('Вася', 33);
-
 
 // class Admin {
 //   role: number;
@@ -431,40 +429,62 @@
 // }
 
 // -- Extends --
-type PaymentStatus = 'new' | 'paid';
+// type PaymentStatus = 'new' | 'paid';
 
-class Payment {
-  id: number;
-  status: PaymentStatus = 'new';
+// class Payment {
+//   id: number;
+//   status: PaymentStatus = 'new';
 
-  constructor(id: number) {
-    this.id = id;
-  }
+//   constructor(id: number) {
+//     this.id = id;
+//   }
 
-  pay() {
-    this.status = 'paid';
-  }
+//   pay() {
+//     this.status = 'paid';
+//   }
+// }
+
+// class PersistedPayment extends Payment {
+//   databaseId: number;
+//   paidAt: Date;
+
+//   constructor() {
+//     const id = Math.random();
+//     super(id);
+//   }
+
+//   save() {
+//     // Сохраняет в базу
+//   }
+//   // Overriding Method
+//   override pay(date?: Date ) {
+//     super.pay();
+//     if (date) {
+//       this.paidAt = date;
+//     }
+//   }
+// }
+
+// new PersistedPayment();
+
+// -- Typescript - Generics, Index Access Types, Keyof на простом примере --
+
+const menu = {
+  analytycs: {
+    bussines: "Для бизнеса",
+    data: "Big Data",
+  },
+  design: {
+    graphical: "Графический",
+  },
+};
+
+function getMenu<T, L1 extends keyof T, L2 extends keyof T[L1]>(
+  obj: T,
+  l1: L1,
+  l2: L2
+): T[L1][L2] {
+  return obj[l1][l2];
 }
 
-class PersistedPayment extends Payment {
-  databaseId: number;
-  paidAt: Date;
-
-  constructor() {
-    const id = Math.random();
-    super(id);
-  }
-
-  save() {
-    // Сохраняет в базу
-  }
-  // Overriding Method
-  override pay(date?: Date ) {
-    super.pay();
-    if (date) {
-      this.paidAt = date;
-    }
-  }
-}
-
-new PersistedPayment();
+const res = getMenu(menu, 'design', 'graphical');
