@@ -1,3 +1,4 @@
+"use strict";
 //------------1-------
 // let info: {
 //   officeId: number,
@@ -20,15 +21,12 @@
 // 		}
 // 	}
 // }
-
 //-------------2----
-
 // enum StatusCode {
 //   PUBLISHED = 'published',
 //   DRAFT = 'draft',
 //   DELETED = 'deleted',
 // }
-
 // async function getFaqs(req: { topicId: number; status: StatusCode }): Promise<
 //   {
 //     question: string;
@@ -45,26 +43,20 @@
 //   const data = await res.json();
 //   return data;
 // }
-
 //-------------3----
-
 // interface IPayment {
 //   sum: number;
 //   from: number;
 //   to: number;
 // }
-
 // interface IPaymentRequest extends IPayment {}
-
 // enum PaymentStatus {
 //   Success = 'success',
 //   Failed = 'failed',
 // }
-
 // interface IDataSuccess extends IPayment {
 //   databaseId: number;
 // }
-
 // interface IDataFailed {
 //   errorMessage: string;
 //   errorCode: number;
@@ -74,7 +66,6 @@
 //   status: PaymentStatus;
 //   data: IDataSuccess | IDataFailed;
 // }
-
 // //good
 // interface IResponseSuccess {
 //   status: PaymentStatus.Success;
@@ -84,18 +75,14 @@
 //   status: PaymentStatus.Failed;
 //   data: IDataFailed;
 // }
-
 // type Res = IResponseSuccess | IResponseFailed;
-
 // -- 4 --
-
 // function isSuccess(res: Res): res is IResponseSuccess {
 //   if(res.status === PaymentStatus.Success) {
 //     return true;
 //   }
 //   return false;
 // }
-
 // function geIdFromData(res: Res): number {
 //   if (isSuccess(res)) {
 //     return res.data.databaseId;
@@ -103,14 +90,12 @@
 //     throw new Error(res.data.errorMessage);
 //   }
 // }
-
 // function isSuccess(res: Res): res is IResponseSuccess {
 //   if(res.status === PaymentStatus.Success) {
 //     return true;
 //   }
 //   return false;
 // }
-
 // function geIdFromData(res: Res): number {
 //   if (isSuccess(res)) {
 //     return res.data.databaseId;
@@ -118,9 +103,7 @@
 //     throw new Error(res.data.errorMessage);
 //   }
 // }
-
 // -- 5 --
-
 /*
 Необходимо сделать корзину (Cart) на сайте,
 которая имееет список продуктов (Product), добавленных в корзину
@@ -133,7 +116,6 @@
 Product: id, название и цена
 Delivery: может быть как до дома (дата и адрес) или до пункта выдачи (дата = Сегодня и Id магазина)
 */
-
 // class Product {
 //   constructor(
 //     public id: number,
@@ -141,49 +123,39 @@ Delivery: может быть как до дома (дата и адрес) ил
 //     public price: number
 //   ) {}
 // }
-
 // class Delivery {
 //   constructor(
 //     public date: Date
 //   ) {}
 // }
-
 // class HomeDelivery extends Delivery {
 //   constructor(date: Date, public address: string) {
 //     super(date);
 //   }
 // }
-
 // class ShopDelivery extends Delivery {
 //   constructor(public shopId: number) {
 //     super(new Date());
 //   }
 // }
-
 // type DeliveryOptions = HomeDelivery | ShopDelivery;
-
 // class Cart {
 //   private products: Product[] = [];
 //   private delivery: DeliveryOptions;
-
 //   public addProduct(product: Product): void {
 //     this.products.push(product);
 //   }
-
 //   public deleteProductById(productId: number): void {
 //     this.products =  this.products.filter((p: Product) => p.id !== productId);
 //   }
-
 //   public getSum(): number {
 //     return this.products
 //       .map((p: Product) => p.price)
 //       .reduce((p1: number, p2: number) => p1 + p2);
 //   }
-
 //   public setDelivery(delivery: DeliveryOptions): void {
 //     this.delivery = delivery;
 //   }
-
 //   public checkOut() {
 //     if (this.products.length == 0) {
 //       throw new Error('Нет ни одного товара в корзине');
@@ -194,17 +166,14 @@ Delivery: может быть как до дома (дата и адрес) ил
 //     return { success: true };
 //   }
 // }
-
 // const cart = new Cart();
 // cart.addProduct(new Product(1, 'Печенье', 10));
 // cart.addProduct(new Product(2, 'Сироп', 30));
 // cart.addProduct(new Product(3, 'Молоко', 40));
 // cart.deleteProductById(1);
 // // cart.setDelivery(new HomeDelivery(new Date(), 'Москва, улица Туполева, 2'));
-
 // console.log(cart.getSum());
 // console.log(cart.checkOut());
-
 // -- 6 --
 /*
 Необходимо реализовать абстрактный класс Logger с 2-мя методами
@@ -213,15 +182,12 @@ printDate - выводящий в log дату
 К нему необходимо сделать реальный класс, который бы имел метод: logWithDate,
 выводящий сначала дату, а потом заданное сообщение
 */
-
 // abstract class Logger {
 //   abstract log(message: string):void;
-
 //   printDate(date: Date) {
 //     this.log(date.toString());
 //   }
 // }
-
 // class MyLogger extends Logger {
 //   log(message: string): void {
 //     console.log(message);
@@ -229,42 +195,39 @@ printDate - выводящий в log дату
 //   logWithDate(message: string) {
 //     this.printDate(new Date());
 //     this.log(message);
-
 //   }
 // }
-
 // const logger = new MyLogger();
 // logger.logWithDate('My message');
-
 // --------------------------
 /*
   Необходимо написать функцию toString, которая принимает любой тип
   и возвращает его строковое представление. Если не может, то
   возвращает undefined.
 */
-
-function toString<T>(data: T): string | undefined {
-  if (Array.isArray(data)) {
-    return data.toString();
-  }
-  switch (typeof data) {
-    case "string":
-      return data;
-    case "number":
-    case "bigint":
-    case "symbol":
-    case "boolean":
-    case "function":
-      return data.toString();
-    case "object":
-      return JSON.stringify(data);
-    default:
-      return undefined;
-  }
+function toString(data) {
+    if (Array.isArray(data)) {
+        return data.toString();
+    }
+    switch (typeof data) {
+        case "string":
+            return data;
+        case "number":
+        case "bigint":
+        case "symbol":
+        case "boolean":
+        case "function":
+            return data.toString();
+        case "object":
+            return JSON.stringify(data);
+        default:
+            return undefined;
+    }
 }
-
 console.log(toString(Math.abs));
 console.log(toString(3));
 console.log(toString(false));
-console.log(toString({rer: "sfddd"}));
+console.log(toString({ rer: "sfddd" }));
 console.log(toString(["sd", "as"]));
+console.log(toString(1 + "hh"));
+//# sourceMappingURL=test.js.map
