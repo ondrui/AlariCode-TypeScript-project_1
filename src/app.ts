@@ -733,7 +733,6 @@
 // const res = new UserBuilder().setName('Вася');
 // const res2 = new AdminBuilder().setName('Вася');
 
-
 // let user: UserBuilder | AdminBuilder = new UserBuilder();
 
 // if (user.isAdmin()) {
@@ -788,16 +787,73 @@
 
 // -- 62. Пишем функцию с generic --
 
-function logMiddleware<T>(data: T): T {
-  console.log(data);
-  return data;
-}
+// function logMiddleware<T>(data: T): T {
+//   console.log(data);
+//   return data;
+// }
 
-const res = logMiddleware<number>(10);
+// const res = logMiddleware<number>(10);
 
-function getSplitedHalf<T>(data: Array<T>): Array<T> {
-  const l = data.length / 2;
-  return data.splice(0, l);
-}
+// function getSplitedHalf<T>(data: Array<T>): Array<T> {
+//   const l = data.length / 2;
+//   return data.splice(0, l);
+// }
 
-getSplitedHalf<number>([1, 3, 4]);
+// getSplitedHalf<number>([1, 3, 4]);
+
+// -- 64. Использование Generics в типах
+
+// const split: <T>(data: Array<T>) => Array<T> = getSplitedHalf;
+
+// interface ILOgLine<T> {
+//   timeStamp: Date;
+//   data: T
+// }
+
+// type LogLineType<T> = {
+//   timeStamp: Date;
+//   data: T;
+// }
+
+// const logLine: ILOgLine<{ a: number }> = {
+//   timeStamp: new Date(),
+//   data: {
+//     a: 1
+//   }
+// }
+
+// const logLineWithType: LogLineType<{ a: number }> = {
+//   timeStamp: new Date(),
+//   data: {
+//     a: 1
+//   }
+// }
+
+// -- 65. Ограничение generic --
+
+// class Vehicle {
+//   run: number;
+// }
+
+// function kmToMiles<T extends Vehicle>(vehicle: T): T {
+//   vehicle.run = vehicle.run / 0.62;
+//   return vehicle;
+// }
+
+// class LCV extends Vehicle {
+//   capacity: number;
+// }
+
+// type Abcde = keyof any; //type A = string | number | symbol
+
+// const vehicle = kmToMiles(new Vehicle());
+// const lcv = kmToMiles(new LCV());
+
+// function logId<T extends string | number, Y>(
+//   id: T,
+//   additionalData: Y
+// ): { id: T; data: Y } {
+//   console.log(id);
+//   console.log(additionalData);
+//   return { id: id, data: additionalData };
+// }
