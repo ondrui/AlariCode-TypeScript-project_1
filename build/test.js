@@ -205,29 +205,58 @@ printDate - выводящий в log дату
   и возвращает его строковое представление. Если не может, то
   возвращает undefined.
 */
-function toString(data) {
-    if (Array.isArray(data)) {
-        return data.toString();
+// function toString<T>(data: T): string | undefined {
+//   if (Array.isArray(data)) {
+//     return data.toString();
+//   }
+//   switch (typeof data) {
+//     case "string":
+//       return data;
+//     case "number":
+//     case "bigint":
+//     case "symbol":
+//     case "boolean":
+//     case "function":
+//       return data.toString();
+//     case "object":
+//       return JSON.stringify(data);
+//     default:
+//       return undefined;
+//   }
+// }
+// console.log(toString(Math.abs));
+// console.log(toString(3));
+// console.log(toString(false));
+// console.log(toString({rer: "sfddd"}));
+// console.log(toString(["sd", "as"]));
+// -- 9 --
+/*
+  Необходимо написать функцию сортировки любых объектов, которые имеют id по убюванию и по возрастанию.
+*/
+const data = [
+    { id: 1, name: 'Вася' },
+    { id: 3, name: 'Оля' },
+    { id: 2, name: 'Петя' },
+];
+function sortObj(data, type) {
+    if (type === 'asc') {
+        return data.sort((a, b) => a.id - b.id);
     }
-    switch (typeof data) {
-        case "string":
-            return data;
-        case "number":
-        case "bigint":
-        case "symbol":
-        case "boolean":
-        case "function":
-            return data.toString();
-        case "object":
-            return JSON.stringify(data);
-        default:
-            return undefined;
+    if (type === 'desc') {
+        return data.sort((a, b) => b.id - a.id);
     }
+    return data.sort((a, b) => a.id - b.id);
 }
-console.log(toString(Math.abs));
-console.log(toString(3));
-console.log(toString(false));
-console.log(toString({ rer: "sfddd" }));
-console.log(toString(["sd", "as"]));
-console.log(toString(1 + "hh"));
+function sort(data, type = 'asc') {
+    return data.sort((a, b) => {
+        switch (type) {
+            case 'asc':
+                return a.id - b.id;
+            case 'desc':
+                return b.id - a.id;
+        }
+    });
+}
+console.log(sort(data, 'desc'));
+console.log(sort(data));
 //# sourceMappingURL=test.js.map
